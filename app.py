@@ -25,7 +25,7 @@ def load_intents():
         return json.load(file)
 
 # Function to get bot response based on user input
-def get_bot_response(user_input, intents):
+def get_bot_response(user_input, intents, last_user_input):
     # Here you would implement logic to process the user input and select an appropriate response
     # For simplicity, we'll search for a matching intent and return a random response from its list of responses
     user_input_lower = user_input.lower()
@@ -33,8 +33,19 @@ def get_bot_response(user_input, intents):
         if any(pattern.lower() in user_input_lower for pattern in intent["patterns"]):
             responses = intent["responses"]
             return random.choice(responses)
-    # If no matching intent is found, return a default response
-    return "I'm sorry, I don't understand that."
+    
+    # Check if the last user input was a question about taking pain relievers
+    if last_user_input.lower().startswith("have you taken any pain relievers?"):
+        if "no" in user_input_lower:
+            return "I understand. If the pain persists, consider consulting a healthcare professional."
+        elif "yes" in user_input_lower:
+            if "still persist" in user_input_lower:
+                return "I'm sorry to hear that. It's advisable to consult a healthcare professional for further evaluation and treatment."
+            else:
+                return "Good to hear! If you have any questions or concerns, feel free to ask."
+    
+    # If no matching intent is found and there's no specific follow-up logic, return a default response
+    return "I'm sorry, I'm not sure I understand. Can you please provide more details?"
 
 def main():
     st.title("Health Organization Chatbot")
@@ -43,8 +54,10 @@ def main():
     intents = load_intents()
 
     # Initialize session state
-    if "chat_history" not in st.session_state:
-        st.session_state.chat_history = []
+    if "conversation_history" not in st.session_state:
+        st.session_state.conversation_history = []
+    if "last_user_input" not in st.session_state:
+        st.session_state.last_user_input = ""
 
     # Authenticate the user and get their name
     user_name = authenticate_user()
@@ -52,41 +65,36 @@ def main():
     # Display welcome message with the user's name
     st.write(f"Welcome, {user_name}!")
 
-    # List to store conversation history
-    conversation_history = st.session_state.chat_history
-
     # Display conversation history
     st.subheader("Conversation History")
-    for sender, message in conversation_history:
+    for sender, message in st.session_state.conversation_history:
         st.write(f"{sender}: {message}")
 
     # Add spacing between chat history and input field
     st.write("")
 
-    # Create a container for input field and button
-    input_container = st.container()
-
     # Input field for user to enter message
-    with input_container:
-        user_input = st.text_input("Enter your message:", value="", key=f"{user_name}_user_input", placeholder="Enter your message...")
+    user_input = st.text_input("Enter your message:", value="", key=f"{user_name}_user_input", placeholder="Enter your message...")
 
     # Send button
-    with input_container:
-        if st.button("Send") and user_input:
-            # Add user's message to the conversation history
-            conversation_history.append((user_name, user_input))
-            
-            # Get bot's response based on user input
-            bot_response = get_bot_response(user_input, intents)
-            
-            # Add bot's response to the conversation history
-            conversation_history.append(("Bot", bot_response))
+    if st.button("Send") and user_input:
+        # Add user's message to the conversation history
+        st.session_state.conversation_history.append((user_name, user_input))
+        
+        # Get bot's response based on user input
+        bot_response = get_bot_response(user_input, intents, st.session_state.last_user_input)
+        
+        # Add bot's response to the conversation history
+        st.session_state.conversation_history.append(("Bot", bot_response))
 
-            # Clear input field after sending message
-            user_input = ""
+        # Display bot's response
+        st.write("Bot:", bot_response)
 
-    # Update session state
-    st.session_state.chat_history = conversation_history
+        # Update last_user_input
+        st.session_state.last_user_input = user_input
+
+        # Clear input field after sending message
+        user_input = ""
 
     # Generate QR code section
     st.sidebar.subheader("Scan QR Code to Access Chatbot")
