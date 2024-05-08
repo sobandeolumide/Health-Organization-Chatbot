@@ -90,7 +90,7 @@ def main():
 
     # Generate QR code section
     st.sidebar.subheader("Scan QR Code to Access Chatbot")
-    qr_data = "https://http://localhost:8501/"  # Replace with your Streamlit app URL
+    qr_data = "https://health-organization-chatbot.onrender.com"  # Replace with your Streamlit app URL
     qr_code = generate_qr_code(qr_data)
     
     # Convert QR code image to bytes
