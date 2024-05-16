@@ -88,7 +88,7 @@ def main():
         last_user_input = st.session_state.messages[-2]["content"] if len(st.session_state.messages) > 1 else ""
 
         # Add a delay of 5 seconds before bot responds
-        time.sleep(1)
+        time.sleep(2)
         
         # Get bot response
         bot_response = get_bot_response(prompt, intents, last_user_input)
