@@ -4,6 +4,7 @@ from PIL import Image
 import io
 import json
 import random
+import time  # Make sure to import the time module
 
 
 # Function to generate QR code
@@ -86,6 +87,9 @@ def main():
         # Get the last message for context
         last_user_input = st.session_state.messages[-2]["content"] if len(st.session_state.messages) > 1 else ""
 
+        # Add a delay of 5 seconds before bot responds
+        time.sleep(1)
+        
         # Get bot response
         bot_response = get_bot_response(prompt, intents, last_user_input)
 
@@ -110,3 +114,6 @@ def main():
 # Call the main function
 if __name__ == "__main__":
     main()
+    
+    
+
