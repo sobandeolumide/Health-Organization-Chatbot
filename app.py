@@ -4,7 +4,6 @@ from PIL import Image
 import io
 import json
 import random
-import time  # Make sure to import the time module
 
 
 # Function to generate QR code
@@ -18,33 +17,35 @@ def generate_qr_code(data):
 # Function to load intents from intents.json
 def load_intents():
     try:
-        with open("intents.json", "r") as file:
+        with open("intents.json", "r", encoding="utf-8") as file:
             return json.load(file)
     except FileNotFoundError:
         st.error("Intents file not found.")
         return {"intents": []}
 
 # Function to get bot response based on user input
-def get_bot_response(user_input, intents, last_user_input):
-    user_input_lower = user_input.lower()
+def get_bot_response(user_input, intents, context):
+    user_input_lower = user_input.lower().strip()
+    
+    # Check context for follow-up
+    if context and "follow_up" in context:
+        follow_up = context["follow_up"]
+        if "no" in user_input_lower and "no_response" in follow_up:
+            return follow_up["no_response"], None
+        elif "yes" in user_input_lower and "yes_response" in follow_up:
+            return follow_up["yes_response"], None
+
+    # Iterate through intents to find a matching pattern
     for intent in intents["intents"]:
         if any(pattern.lower() in user_input_lower for pattern in intent["patterns"]):
-            responses = intent["responses"]
-            return random.choice(responses)
+            response_data = random.choice(intent["responses"])
+            response = response_data["response"]
+            follow_up = response_data.get("follow_up", None)
+            return response, follow_up
     
-    # Check if the last user input was a question about taking pain relievers
-    if last_user_input and last_user_input.lower().startswith("have you taken any pain relievers?"):
-        if "no" in user_input_lower:
-            return "I understand. If the pain persists, consider consulting a healthcare professional. 😔"
-        elif "yes" in user_input_lower:
-            if "still persist" in user_input_lower:
-                return "I'm sorry to hear that. It's advisable to consult a healthcare professional for further evaluation and treatment. 😟"
-            else:
-                return "Good to hear! If you have any questions or concerns, feel free to ask. 😌"
-    
-    # If no matching intent is found and there's no specific follow-up logic, return a default response
-    return "I'm sorry, I'm not sure I understand. Can you please provide more details? 🤔"
+    return "I'm sorry, I don't understand that. Can you please rephrase?", None
 
+# Function to display chat message
 def display_chat_message(role, content):
     if role == "user":
         avatar = "👨"  # Using a human emoji for the user avatar
@@ -63,6 +64,7 @@ def display_chat_message(role, content):
     </div>
     """, unsafe_allow_html=True)
 
+# Main function
 def main():
     st.title("Health Organization Chatbot")
     
@@ -72,6 +74,8 @@ def main():
     # Initialize chat history
     if "messages" not in st.session_state:
         st.session_state.messages = []
+    if "context" not in st.session_state:
+        st.session_state.context = None
 
     # Display chat messages from history on app rerun
     for message in st.session_state.messages:
@@ -79,23 +83,18 @@ def main():
 
     # React to user input
     prompt = st.chat_input("What's up?")
-    if prompt: 
-        # Add user message to chat history
+    if prompt:
         st.session_state.messages.append({"role": "user", "content": prompt})
         display_chat_message("user", prompt)
 
-        # Get the last message for context
-        last_user_input = st.session_state.messages[-2]["content"] if len(st.session_state.messages) > 1 else ""
-
-        # Add a delay of 5 seconds before bot responds
-        time.sleep(2)
-        
         # Get bot response
-        bot_response = get_bot_response(prompt, intents, last_user_input)
+        bot_response, follow_up = get_bot_response(prompt, intents, st.session_state.context)
+        
+        # Update context for follow-up
+        st.session_state.context = {"follow_up": follow_up} if follow_up else None
 
         # Display bot response in chat message container
         display_chat_message("bot", bot_response)
-        # Add bot message to chat history
         st.session_state.messages.append({"role": "bot", "content": bot_response})
 
     # Generate QR code section
@@ -114,6 +113,3 @@ def main():
 # Call the main function
 if __name__ == "__main__":
     main()
-    
-    
-
