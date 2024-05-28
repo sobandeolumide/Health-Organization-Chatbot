@@ -2,78 +2,229 @@
   "intents": [
     {
       "tag": "greeting",
-      "patterns": ["Hi", "Hello", "Hey", "Howdy"],
-      "responses": ["Hi there! How can I help you?", "Hello! What can I do for you?", "Hey! How can I assist you today?"]
+      "patterns": ["Hi", "Hello", "Hey", "Howdy", "What's up"],
+      "responses": [
+        {"response": "Hi there! How can I help you today?", "follow_up": null},
+        {"response": "Hello! What brings you here today?", "follow_up": null},
+        {"response": "Hey! How are you doing?", "follow_up": null}
+      ]
     },
     {
       "tag": "headache",
       "patterns": ["I have a headache", "My head hurts", "Headache"],
-      "responses": ["I'm sorry to hear that. Have you taken any pain relievers?", "Headaches can be tough. Have you tried resting or taking some water?"]
+      "responses": [
+        {
+          "response": "Headaches can be tough. Have you tried resting or drinking some water?",
+          "follow_up": {
+            "yes_response": "Good to hear! If the pain persists, make sure to consult a healthcare professional. 😊",
+            "no_response": "I understand. If the pain continues, you might want to consider taking some over-the-counter pain relief medication. 😔"
+          }
+        },
+        {
+          "response": "I'm sorry to hear that. Have you taken any pain relievers?",
+          "follow_up": {
+            "yes_response": "That's good. Hopefully, it helps. If not, consult a healthcare professional. 😊",
+            "no_response": "You might want to consider taking some over-the-counter pain relief medication. 😔"
+          }
+        },
+        {
+          "response": "That sounds painful. Did you get enough sleep last night?",
+          "follow_up": {
+            "yes_response": "Sleep is important for recovery. If the headache persists, please consult a doctor. 😊",
+            "no_response": "Lack of sleep can contribute to headaches. Try to get some rest. 😔"
+          }
+        }
+      ]
     },
     {
       "tag": "stomachache",
       "patterns": ["I have a stomachache", "My stomach hurts", "Stomachache"],
-      "responses": ["I'm sorry to hear that. Have you had any unusual foods lately?", "Stomachaches can be uncomfortable. Have you tried drinking some herbal tea?"]
+      "responses": [
+        {
+          "response": "Stomachaches can be uncomfortable. Have you tried drinking some herbal tea?",
+          "follow_up": {
+            "yes_response": "That could be helpful. If the pain continues, consult a healthcare professional. 😊",
+            "no_response": "If the pain persists, it might be a good idea to consult a healthcare professional. 😔"
+          }
+        },
+        {
+          "response": "I'm sorry you're feeling this way. Have you had any unusual foods lately?",
+          "follow_up": {
+            "yes_response": "That might be the cause. Try to rest and drink plenty of fluids. 😊",
+            "no_response": "If the pain continues, consider consulting a healthcare professional. 😔"
+          }
+        },
+        {
+          "response": "That sounds uncomfortable. Have you experienced this before?",
+          "follow_up": {
+            "yes_response": "It might be good to track your symptoms and consult a healthcare provider. 😊",
+            "no_response": "If it's a new symptom, please consider consulting a healthcare professional. 😔"
+          }
+        }
+      ]
     },
     {
       "tag": "cough",
       "patterns": ["I have a cough", "I'm coughing", "Cough"],
-      "responses": ["Coughing can be bothersome. Have you tried honey and lemon?", "Cough drops might help. Have you tried any?"]
+      "responses": [
+        {
+          "response": "Coughing can be bothersome. Have you tried honey and lemon?",
+          "follow_up": {
+            "yes_response": "That's great. If the cough persists, consider seeing a doctor. 😊",
+            "no_response": "You might want to try it. If the cough continues, consult a healthcare professional. 😔"
+          }
+        },
+        {
+          "response": "Cough drops might help. Have you tried any?",
+          "follow_up": {
+            "yes_response": "Hopefully, it helps. If not, consult a healthcare professional. 😊",
+            "no_response": "You might want to give them a try. If the cough persists, see a doctor. 😔"
+          }
+        },
+        {
+          "response": "I'm sorry to hear that. How long have you been coughing?",
+          "follow_up": {
+            "yes_response": "If it's been a while, consider seeing a healthcare professional. 😊",
+            "no_response": "If the cough is persistent, it's best to consult a healthcare provider. 😔"
+          }
+        }
+      ]
     },
     {
       "tag": "fever",
       "patterns": ["I have a fever", "I'm running a temperature", "Fever"],
-      "responses": ["A fever could mean your body is fighting an infection. Have you taken any medication?", "Try keeping yourself hydrated and resting if you have a fever."]
+      "responses": [
+        {
+          "response": "A fever could mean your body is fighting an infection. Have you taken any medication?",
+          "follow_up": {
+            "yes_response": "That's good. Keep monitoring your temperature. 😊",
+            "no_response": "Consider taking some fever-reducing medication and staying hydrated. 😔"
+          }
+        },
+        {
+          "response": "Try keeping yourself hydrated and resting if you have a fever.",
+          "follow_up": null
+        },
+        {
+          "response": "That sounds concerning. Have you checked your temperature recently?",
+          "follow_up": {
+            "yes_response": "Monitoring your temperature is important. If it stays high, consult a doctor. 😊",
+            "no_response": "You should check your temperature and consult a healthcare provider if it's high. 😔"
+          }
+        }
+      ]
     },
     {
       "tag": "skin_rash",
       "patterns": ["I have a skin rash", "I'm experiencing a rash", "Skin rash"],
-      "responses": ["Rashes can be caused by various factors. Have you applied any ointments or creams?", "Keep the affected area clean and dry. If it persists, consider consulting a dermatologist."]
+      "responses": [
+        {
+          "response": "Rashes can be caused by various factors. Have you applied any ointments or creams?",
+          "follow_up": {
+            "yes_response": "If it helps, continue using it. If not, see a dermatologist. 😊",
+            "no_response": "Consider applying a suitable ointment and if it persists, consult a dermatologist. 😔"
+          }
+        },
+        {
+          "response": "Keep the affected area clean and dry. If it persists, consider consulting a dermatologist.",
+          "follow_up": null
+        },
+        {
+          "response": "I'm sorry to hear that. Is the rash itchy or painful?",
+          "follow_up": {
+            "yes_response": "If it is, you should see a dermatologist for proper treatment. 😊",
+            "no_response": "If it's not too bothersome but persists, consult a healthcare provider. 😔"
+          }
+        }
+      ]
     },
     {
       "tag": "thank_you",
       "patterns": ["Thank you", "Thanks", "Appreciate it"],
-      "responses": ["You're welcome!", "Glad I could assist you!"]
+      "responses": [
+        {"response": "You're welcome! 😊", "follow_up": null},
+        {"response": "Glad I could assist you! 😊", "follow_up": null}
+      ]
     },
     {
       "tag": "goodbye",
       "patterns": ["Bye", "Goodbye", "See you later"],
-      "responses": ["Goodbye! Take care.", "See you later! Have a great day."]
+      "responses": [
+        {"response": "Goodbye! Take care. 👋", "follow_up": null},
+        {"response": "See you later! Have a great day. 👋", "follow_up": null}
+      ]
     },
     {
       "tag": "help",
       "patterns": ["Help", "I need help", "Can you help me"],
-      "responses": ["Of course! Feel free to ask me anything related to health or wellness."]
+      "responses": [
+        {"response": "Of course! Feel free to ask me anything related to health or wellness.", "follow_up": null}
+      ]
     },
     {
       "tag": "thanks_feedback",
       "patterns": ["Thank you for your help", "Thanks for the assistance", "Appreciate the support"],
-      "responses": ["You're welcome! If you have any more questions, don't hesitate to ask."]
+      "responses": [
+        {"response": "You're welcome! If you have any more questions, don't hesitate to ask.", "follow_up": null}
+      ]
     },
     {
       "tag": "emergency",
       "patterns": ["Emergency", "I need emergency help", "Urgent"],
-      "responses": ["If you're experiencing a medical emergency, please call emergency services immediately."]
+      "responses": [
+        {"response": "If you're experiencing a medical emergency, please call emergency services immediately.", "follow_up": null}
+      ]
     },
     {
       "tag": "medication_query",
       "patterns": ["What medication should I take for a cold?", "Any recommendations for flu medication?", "What can I take for allergies?"],
-      "responses": ["For colds, consider over-the-counter cold remedies like decongestants or pain relievers. Always consult a healthcare professional for personalized advice."]
+      "responses": [
+        {"response": "For colds, consider over-the-counter cold remedies like decongestants or pain relievers. Always consult a healthcare professional for personalized advice.", "follow_up": null},
+        {"response": "For flu, rest and plenty of fluids are often recommended. Consult a doctor for specific medications.", "follow_up": null},
+        {"response": "For allergies, antihistamines are commonly used. Check with your healthcare provider for the best option.", "follow_up": null}
+      ]
     },
     {
       "tag": "diet_advice",
       "patterns": ["Can you recommend a healthy diet plan?", "What should I eat to lose weight?", "Any tips for a balanced diet?"],
-      "responses": ["A balanced diet includes a variety of fruits, vegetables, lean proteins, and whole grains. Consider consulting a nutritionist for personalized diet advice."]
+      "responses": [
+        {"response": "A balanced diet includes a variety of fruits, vegetables, lean proteins, and whole grains. Consider consulting a nutritionist for personalized diet advice.", "follow_up": null},
+        {"response": "For weight loss, focus on portion control and reducing sugar intake. Regular exercise is also important.", "follow_up": null},
+        {"response": "A balanced diet should include all food groups in appropriate portions. Stay hydrated and avoid processed foods.", "follow_up": null}
+      ]
     },
     {
       "tag": "exercise_recommendation",
       "patterns": ["What exercises are good for improving flexibility?", "Can you suggest workouts for strength training?", "How often should I exercise?"],
-      "responses": ["Yoga and stretching exercises can improve flexibility. Strength training exercises like weightlifting and bodyweight exercises can help build muscle. Aim for at least 150 minutes of moderate-intensity aerobic activity per week."]
+      "responses": [
+        {"response": "Yoga and stretching exercises can improve flexibility. Strength training exercises like weightlifting and bodyweight exercises can help build muscle.", "follow_up": null},
+        {"response": "For strength training, consider weightlifting or resistance band exercises. Aim for at least 2-3 times a week.", "follow_up": null},
+        {"response": "Aim for at least 150 minutes of moderate-intensity aerobic activity per week, along with muscle-strengthening activities on 2 or more days a week.", "follow_up": null}
+      ]
     },
     {
       "tag": "ulcer",
       "patterns": ["I have an ulcer", "Ulcer", "My stomach ulcer is bothering me"],
-      "responses": ["I'm sorry to hear that. It's important to avoid spicy and acidic foods if you have an ulcer. Have you consulted a healthcare professional for treatment options?"]
+      "responses": [
+        {
+          "response": "I'm sorry to hear that. It's important to avoid spicy and acidic foods if you have an ulcer. Have you consulted a healthcare professional for treatment options?",
+          "follow_up": {
+            "yes_response": "That's good. Follow their advice for the best outcome. 😊",
+            "no_response": "You should consider consulting a healthcare professional for proper treatment. 😔"
+          }
+        },
+        {
+          "response": "Ulcers can be painful. Have you tried any medications or treatments?",
+          "follow_up": {
+            "yes_response": "Hopefully, it provides relief. If not, consult a healthcare provider. 😊",
+            "no_response": "Consider seeing a healthcare professional for appropriate medication. 😔"
+          }
+        },
+        {
+          "response": "It's best to avoid certain foods and stress. Consult with a healthcare provider for proper management.",
+          "follow_up": null
+        }
+      ]
     }
   ]
 }
