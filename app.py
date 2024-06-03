@@ -4,6 +4,7 @@ from PIL import Image
 import io
 import json
 import random
+import time  
 
 
 # Function to generate QR code
@@ -89,6 +90,9 @@ def main():
 
         # Get bot response
         bot_response, follow_up = get_bot_response(prompt, intents, st.session_state.context)
+
+        # Introduce a delay of seconds before showing the bot response
+        time.sleep(2)
         
         # Update context for follow-up
         st.session_state.context = {"follow_up": follow_up} if follow_up else None
