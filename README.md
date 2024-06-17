@@ -36,7 +36,7 @@ QR Code Integration: Allows users to access the chatbot via a QR code.
 
 bash
 Copy code
-git clone https://github.com/yourusername/health-organization-chatbot.git
+git clone https://github.com/sobandeolumide/health-organization-chatbot.git
 cd health-organization-chatbot
 Install dependencies:
 Make sure you have Python installed, then install the required packages using pip:
@@ -117,4 +117,4 @@ This project is licensed under the MIT License. See the LICENSE file for details
 **Contact**
 For any questions or issues, please open an issue on GitHub or contact:
 
-Your Name - your.email@example.com
+Sobande Olumide - sobandeolumide@gmail.com
